@@ -112,7 +112,7 @@ update CU_SUBJECT_CATEGORY set category_image = 'subimg/english.jpg' where subje
 -- 만들기 4
 -- CU_STUDY_LOCATION 테이블
 create table cu_study_location(
-	glocation varchar2(50) primary key
+   glocation varchar2(50) primary key
 )
 
 drop table cu_study_location;
