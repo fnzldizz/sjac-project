@@ -18,5 +18,9 @@ public interface GroupBoardDAO {
 	public  void updateGroupBoardContent(GroupBoardVO bvo);
 
 	public  int totalContent();
+	
+	public void createGroupBoard(String id);  // 그룹게시판 생성 메서드
+	
+	public void createSequence(String id); // 그룹게시판 시퀀스 생성 메서드
 
 }

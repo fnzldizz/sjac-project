@@ -12,13 +12,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public MemberVO findMemberById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		System.out.println("id : " +id);
+		return memberDAO.findMemberById(id);
 	}
 
 	@Override
-	public MemberVO login(MemberVO vo) {
-		
+	public MemberVO login(MemberVO vo) {	
 		return memberDAO.login(vo);
 	}
 
@@ -36,8 +35,7 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void updateMyInfo(MemberVO vo) {
-		// TODO Auto-generated method stub
-		
+		memberDAO.updateMyInfo(vo);
 	}
 
 	@Override
@@ -45,5 +43,12 @@ public class MemberServiceImpl implements MemberService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<StudyLocationVO> getAllStudyLocation() {
+		return memberDAO.getAllStudyLocation();
+	}
+
+
 
 }

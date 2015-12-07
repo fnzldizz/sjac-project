@@ -1,25 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-내가 만든그룹
+<script>
+function popup(id){
+	window.open("group_member_home.do?gLeaderId="+id, "popup",  "width=1000, height=700, left=200");
+}
+</script>
  
- <div class="category-header no-margin-bottom">
+ <!-- <div class="category-header no-margin-bottom">
                                 <div class="row">
-                                    <div class="col-md-4  cat-search-input">
-                                        <select class="form-control">
-                                            <option>뭔가 쓸만할거같음</option>
-                                            <option>Newest</option>
-                                            <option selected="">뭔가 쓸만할거같음</option>
-                                            <option>Highest Price</option>
-                                        </select>
-                                    </div>
-                                
-                                    <div class="col-md-4  cat-search-input">
-                                        <select class="form-control">
-                                            <option>All Type</option>
-                                            <option>New</option>
-                                            <option selected="">Used</option>
-                                        </select>
-                                    </div>
                                     <div class="col-md-4 text-right  cat-search-input">
                                         <div class="view-type">
                                             <a href="mypage_mycreating_group.do"  data-toggle="tooltip" data-placement="top" title="List"><i class="fa fa-th-list"></i></a>
@@ -27,12 +15,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
 
 <div class="search-results-box">
 	<div class="row">
 		<div class="col-md-12 search-results">
-			Keyword : <span>"Lenovo Thinkpad"</span> Results : <span>23.452</span>
+			Keyword : <span>"내가 만든 그룹"</span> Results : <span>23.452</span>
 			items
 		</div>
 	</div>
@@ -40,23 +28,21 @@
 
 <div class="list-results">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" style="cursor:pointer" onclick="popup('${requestScope.gvo.memberVO.id}')">
                                         <div class="item-ads-grid">
-                                            <div class="item-badge-grid featured-ads">
-                                                <a href="#">Featured Ads</a>
-                                            </div>
+                                            
                                             <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-1.jpg" class="img-responsive img-center">
+                                                <img alt="" src="${requestScope.gvo.subjectVO.categoryImg}" class="img-responsive img-center">
                                             </div>
                                             <div class="item-title">
-                                                <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
+                                               <h4>${requestScope.gvo.gName}</h4>
                                             </div>
                                             <div class="item-meta">
                                                 <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
+                                                    <li class="item-date">${requestScope.gvo.gInfo }</li>
+                                                    <li class="item-cat"><i class="fa fa-bars"></i> ${requestScope.gvo.subjectVO.subjectCategory} , ${requestScope.gvo.subjectVO.subject}</li>
+                                                    <li class="item-location"><i class="fa fa-map-marker"></i> ${requestScope.gvo.gLocation }</li>
+                                                    <li class="item-type">그룹에 참여한 인원 : ${requestScope.gvo.gCount }</li>
                                                 </ul>
                                             </div>
                                             

@@ -1791,6 +1791,7 @@ pre code {
   .col-sm-9 {
     width: 75%;
   }
+
   .col-sm-8 {
     width: 66.66666667%;
   }
@@ -2603,7 +2604,7 @@ input[type="search"] {
   input[type="time"].form-control,
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
-    line-height: 34px;
+    line-height: 32px;
   }
   input[type="date"].input-sm,
   input[type="time"].input-sm,
@@ -2626,6 +2627,8 @@ input[type="search"] {
     line-height: 46px;
   }
 }
+
+
 .form-group {
   margin-bottom: 15px;
 }
@@ -5519,6 +5522,9 @@ button.list-group-item-danger.active:focus {
   font-size: 16px;
   color: inherit;
 }
+
+
+
 .panel-title > a,
 .panel-title > small,
 .panel-title > .small,
@@ -5933,6 +5939,8 @@ button.close {
        -o-transform: translate(0, -25%);
           transform: translate(0, -25%);
 }
+
+
 .modal.in .modal-dialog {
   -webkit-transform: translate(0, 0);
       -ms-transform: translate(0, 0);

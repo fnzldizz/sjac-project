@@ -17,7 +17,12 @@
 		<put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"></put-attribute>
 	</definition> 
 	
-	
+	<definition name="nonMember" template="/WEB-INF/views/group/nonmember_home.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/templates/header.jsp"></put-attribute>
+		<put-attribute name="main" value="/WEB-INF/views/group/nonmember_main.jsp"></put-attribute>
+<!-- 		<put-attribute name="right" value="/WEB-INF/views/templates/right.jsp"></put-attribute> -->
+		<put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>
 
 

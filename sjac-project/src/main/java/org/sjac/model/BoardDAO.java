@@ -1,21 +1,31 @@
 package org.sjac.model;
 
-import java.util.List;;
+import java.util.HashMap;
 
 public interface BoardDAO {
 
-	public  void write(BoardVO bvo);	
+   public  int write(BoardVO bvo);   
 
-	public  List<BoardVO> getBoardList(String pageNo);
+   public  HashMap getBoardList(String pageNo);
 
-	public  BoardVO showContent(int no);
+   public  BoardVO showContent(int no);
 
-	public  void updateCount(int no);
+   public  void updateCount(int no);
 
-	public  void deleteBoard(String no);
+   public  void deleteBoard(String no);
 
-	public  void updateBoard(BoardVO bvo);
+   public  void updateBoard(BoardVO bvo);
 
-	public  int totalContent();
+   public  int totalContent();
+
+   public void updateRestep(int ref, int restep);
+
+   public void insertRefContent(BoardVO bvo);
+
+   public void getCategory(BoardVO bvo);
+
+/*   public boolean checkParentExistence(BoardVO bvo);
+*/
+   public void updateChildBeforeDelete(String no);
 
 }

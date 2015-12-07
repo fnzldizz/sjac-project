@@ -4,18 +4,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- MyBatis에서 namespace는 필수적으로 명시해야 함 -->
 <mapper namespace="member">
+
+	 <resultMap type="slvo"  id="subjectLocationRM">
+      	<result property="gLocation" column="glocation" />
+     </resultMap>
+     
+     <resultMap type="schvo" id="scheduleRM">
+     	<result property="gLeaderId" column="gleader_id"/>
+     	<result property="scheduleDate" column="schedule_date"/>
+     	<result property="scheduleInfo" column="schedule_info"/>
+     	<result property="deadline" column="deadline"/>
+     	<result property="groupVO.gName" column="gname"/>
+     	<result property="groupVO.subjectVO.categoryImg" column="category_image"/>
+     </resultMap>
+   
+     <resultMap type="gmvo" id="groupMemberRM">
+     	<result property="groupVO.memberVO.id" column="gleader_id"/>
+     	<result property="memberVO.id" column="id"></result>
+     </resultMap>
+   
 	<select id="login" resultType="mvo">
-		select * from cu_member where id=#{id} and password=#{password}
+		select id, password, name, location, tel, gender, to_char(birthdate, 'YYYY-MM-DD') as birthdate  
+    	from cu_member where id=#{id} and password=#{password}
 	</select>
 		<insert id="register" parameterType="mvo" >
  	insert into cu_member(id,password,name,location,tel,gender,birthdate)
- 	values(#{id}, #{password}, #{name}, #{location},#{tel},#{gender},to_date(#{birthdate}))
+ 	values(#{id}, #{password}, #{name}, #{location},#{tel},#{gender},to_date(#{birthdate, 'yyyy-mm-dd'}))
  	</insert>
  	
  	<select id="idcheck" resultType="int">
        select count(*) from cu_member where id=#{id}
     </select>
+    <select id="findMemberById" resultType="mvo">
+    	select id, password, name, location, tel, gender, to_char(birthdate, 'YYYY-MM-DD') as birthdate  
+    	from cu_member where id=#{id}
+    </select>
+    <update id="updateMyInfo">
+    	update cu_member set id=#{id}, password=#{password}, name=#{name}, location=#{location}, tel=#{tel}, 
+    	gender=#{gender}, birthdate=to_date(#{birthdate}, 'yyyy-mm-dd')
+    	where id=#{id}
+    </update>
+    <select id="getAllStudyLocation" resultMap="subjectLocationRM">
+    	select glocation as gLocation from cu_study_location
+    </select>
+    
+    <select id="findMyScheduleById" resultMap="scheduleRM">
+    	 select cs.no as no, cs.gleader_id as gleader_id, to_char(cs.schedule_date, 'yyyy-mm-dd hh24:mi') as schedule_date, 
+ 		 cs.schedule_info as schedule_info, g.gname as gname, s.category_image as category_image,
+ 		 cs.schedule_date-sysdate as deadline
+ 		 from cu_schedule cs, cu_group g, cu_subject_category s  
+ 		 where cs.gleader_id = g.gleader_id and g.gsubject=s.subject and id=#{id} 
+ 		 order by cs.schedule_date asc 
+    </select>
 
+ 	<select id="checkMyGroup" resultMap="groupMemberRM">
+ 		select gleader_id, id from cu_group_member where gleader_id=#{gLeaderId} and id=#{id}
+ 	</select>
+ 	
+ 	<insert id="test">
+ 		insert into ${value} values(#{id}, 'asd', 'asdf', '2', 'asdfg', 'asdfgh')
+ 	</insert>
  	
 </mapper>
  

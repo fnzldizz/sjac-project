@@ -5,13 +5,13 @@
         <div class="container">
         <ul class="pull-left footer-menu">
             <li>
-                <a href="index.html"> Home </a>
+                <a href="home.do"> Home </a>
                 <a href="about.html"> About us </a>
                 <a href="contact.html"> Contact us </a>
             </li>
         </ul>
         <ul class="pull-right footer-menu">
-            <li> &copy; 2015 Dlapak </li>
+            <li> &copy; Job∩Study </li>
         </ul>
         </div>
     </div>

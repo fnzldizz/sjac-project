@@ -49,7 +49,8 @@
 		<put-attribute name="header" value="/WEB-INF/views/templates/header.jsp"></put-attribute>
 		<put-attribute name="footer" value="/WEB-INF/views/templates/footer.jsp"></put-attribute>
 		<put-attribute name="homegroup" value="/WEB-INF/views/main/homegroup.jsp"></put-attribute>
-		<put-attribute name="homelogin" value="/WEB-INF/views/main/homelogin.jsp"></put-attribute>
+<!-- 		<put-attribute name="homelogin" value="/WEB-INF/views/main/homelogin.jsp"></put-attribute> -->
+		<put-attribute name="chart" value="/WEB-INF/views/main/chart.jsp"></put-attribute>
 		<put-attribute name="counter" value="/WEB-INF/views/templates/counter.jsp"></put-attribute>
 	</definition>
 	

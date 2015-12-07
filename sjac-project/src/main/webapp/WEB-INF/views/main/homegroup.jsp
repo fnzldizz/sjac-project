@@ -3,8 +3,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="section-header">
-				<h2>최근 생성 그룹</h2>
+			<div class="section-header1">
+			 최근 생성 그룹	
 			</div>
 
 		</div>
@@ -16,9 +16,19 @@
 	<!--최근 생성 그룹 생성----------- -->
 	<div id="featured-products" class="owl-carousel owl-carousel-featured">
 
-<c:forEach items="${requestScope.groupList }" begin="0" end="12" var="gvo">
+<script>
+function popup(id){
+	window.open("checkMyGroup.do?gLeaderId="+id, "popup",  "width=1000, height=700, left=200");
+}
+</script>
+
+<c:forEach items="${requestScope.map.groupList }" begin="0" end="12" var="gvo">
 	<!-- 그룹 설명 부 시작 -->
-					<div class="item">
+<%-- 					<div class="item" style="cursor:pointer" onclick="window.location.href='checkMyGroup.do?gLeaderId=${gvo.memberVO.id}';"> --%>
+<%-- 					<div class="item" style= "cursor:pointer" onclick="window.open='checkMyGroup.do?gLeaderId=${gvo.memberVO.id}', 'popup', --%>
+<%-- 					width=500, height=700, left=200;"> --%>
+					
+					<div class="item" style= "cursor:pointer" onclick="popup('${gvo.memberVO.id}')">
 						<div class="item-ads-grid">
 
 							<!-- 이미지 넣는 부분 시작 -->
@@ -29,7 +39,7 @@
 
 							<!-- 스터디 그룹명 부 시작 -->
 							<div class="item-title">
-								<a href="detail.html"><h4>${gvo.gName }</h4></a>
+								<h4>${gvo.gName }</h4>
 							</div>
 							<!-- 스터디 그룹명 부 끝 -->
 
@@ -37,7 +47,7 @@
 							<div class="item-meta">
 								<ul>
 									<li class="item-cat"><i class="fa fa-bars"></i> 분류</li>
-									<li class="item-cat"><a href="category.html"> ${gvo.subjectVO.subject }</a></li>
+									<li class="item-cat"> ${gvo.subjectVO.subject }</li>
 								</ul>
 
 								<ul>
@@ -70,7 +80,7 @@
 								<div class="item-action-grid pull-right">
 									<ul>
 										<li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-										<li><a href="그룹상세페이지url" data-toggle="tooltip"	data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
+										<li><a href="checkMyGroup.do?gLeaderId=${gvo.memberVO.id}" data-toggle="tooltip"	data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
 									</ul>
 								</div>
 								<!-- 우측 하단 버튼 부 끝 -->
