@@ -7,6 +7,6 @@ public interface ReportService {
 
 	public void countKeyWord(String cval);
 
-	public List<Map> showCount();
+	public List<ReportVO> showCount();
 
 }

@@ -11,6 +11,6 @@ public interface ReportDAO {
 
 	public void countUpKeyWord(String cval);
 
-	public List<Map> showCount();
+	public List<ReportVO> showCount();
 
 }

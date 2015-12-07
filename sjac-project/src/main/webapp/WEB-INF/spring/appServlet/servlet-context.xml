@@ -32,6 +32,20 @@
 	 <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView" />
 	 <property name="order" value="0" />
 	</bean>
+	
+	
+<!--  Handler Interceptor 설정  -->
+	 <mvc:interceptors>
+		<mvc:interceptor>
+		<!-- 	<mvc:mapping path="/updateMember.do"/>
+			<mvc:mapping path="/updateView.do"/> -->
+			<mvc:mapping path="/auth_*.do"/>
+			<bean class="org.sjac.controller.LoginCheckInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> 
+
+	
+	
 </beans>
 
 

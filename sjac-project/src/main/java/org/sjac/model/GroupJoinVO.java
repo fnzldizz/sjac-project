@@ -6,9 +6,9 @@ public class GroupJoinVO {
 	private String gjTitle;
 	private String gjContent;
 	private GroupVO groupVO;
+	
 	public GroupJoinVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public GroupJoinVO(int gjNo, MemberVO memberVO, String gjTitle,
 			String gjContent, GroupVO groupVO) {

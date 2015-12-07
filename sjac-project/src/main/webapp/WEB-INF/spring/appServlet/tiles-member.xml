@@ -14,6 +14,10 @@
 		<put-attribute name="main" value="/WEB-INF/views/member/{1}.jsp"></put-attribute>
 	</definition>	
 	
+	<definition name="basic2_member_*" extends="basic2">
+		<put-attribute name="main" value="/WEB-INF/views/member/{1}.jsp"></put-attribute>
+	</definition>	
+	
 	<definition name="board_*" extends="basic2">
 		<put-attribute name="main" value="/WEB-INF/views/member/board/{1}.jsp"></put-attribute>
 	</definition>	

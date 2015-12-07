@@ -2,8 +2,15 @@ package org.sjac.model;
 
 import java.util.List;
 
-public class GroupBoardDAOImpl implements GroupBoardDAO{
+import javax.annotation.Resource;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class GroupBoardDAOImpl implements GroupBoardDAO{
+	@Resource
+	private SqlSessionTemplate sqlSessionTemplate;
 	@Override
 	public void writeGroupBoard(GroupBoardVO gbvo) {
 		// TODO Auto-generated method stub
@@ -44,6 +51,16 @@ public class GroupBoardDAOImpl implements GroupBoardDAO{
 	public int totalContent() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public void createGroupBoard(String id) {
+		sqlSessionTemplate.insert("group.createGroupBoard", id);
+	}
+
+	@Override
+	public void createSequence(String id) {
+		sqlSessionTemplate.insert("group.createSequence", id);
 	}
 	
 }

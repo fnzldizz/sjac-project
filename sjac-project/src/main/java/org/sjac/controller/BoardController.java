@@ -1,22 +1,26 @@
 package org.sjac.controller;
 
+import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.sjac.model.BoardService;
+import org.sjac.model.BoardVO;
+import org.sjac.model.MemberVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class BoardController {
 	
-	// 그룹 검색 페이지
-	@RequestMapping("member_find_group.do")
-	public String findGroup(){
-		return "basic_member_find_group";
-	}
-
-	//그룹 생성 페이지
-	@RequestMapping("member_create_group.do")
-	public String createGroup(){
-		return "sublayout_member_create_group";
-	}
+	@Resource(name="boardServiceImpl")
+	   private BoardService boardService;
+	
 	
 	//회원가입 페이지
 	@RequestMapping("member_register.do")
@@ -24,98 +28,129 @@ public class BoardController {
 		return "basic_member_register";
 	}
 	
-	//로그인 페이지
-	@RequestMapping("member_login.do")
-	public String login(){
-		return "basic_member_login";
-	}
-	
 	
 	/**
 	 * <li><a href="member_board_write.do">글쓰기</a></li>
-                                    <li><a href="member_board_update.do">글수정</a></li>
-                                    <li><a href="member_board_upload.do">파일업로드</a></li>
-                                    <li><a href="member_board_show_content.do">글상세보기</a></li>
+        <li><a href="member_board_update.do">글수정</a></li>
+        <li><a href="member_board_upload.do">파일업로드</a></li>
+        <li><a href="member_board_show_content.do">글상세보기</a></li>
 	 * 
 	 */
 	
-	//자유게시판 글쓰기
-	@RequestMapping("board_write.do")
-	public String boardWrite(){
-		return "board_write";
-	}
+	//자유게시판 글쓰기로 이동
+	   @RequestMapping("auth_board_show_write.do") 
+	   public String boardShowWrite(){
+	      return "board_write";
+	   }
 	
-	//자유 게시판 글 수정
-	@RequestMapping("board_update.do")
-	public String boardUpdate(){
-		return "board_update";
-	}
+	 //자유게시판 글쓰기
+	   @RequestMapping(value="auth_board_write.do",method=RequestMethod.POST) 
+	   public ModelAndView boardWrite(HttpServletRequest request,BoardVO bvo){
+	      HttpSession session=request.getSession(false);
+	      if(session!=null){
+	         MemberVO mvo=(MemberVO) session.getAttribute("mvo");
+	         if(mvo!=null){
+	            bvo.setMemberVO(mvo);
+	         }
+	      }
+	      boardService.write(bvo);
+	      return new ModelAndView("redirect:auth_board_showContentNoHit.do?no="+bvo.getNo());
+	      //return new ModelAndView("redirect:/board_showContentNoHit.do?no="+bvo.getNo());
+	   }
 	
-	//자유게시판 상세 글
-	@RequestMapping("board_show_content.do")
-	public String boardShowContent(){
-		return "board_show_content";
-	}
+	   // 글삭제
+	   @RequestMapping("auth_board_deleteBoard.do")
+	   public ModelAndView deleteBoard(String no) {      
+	      boardService.deleteBoard(no);
+	      return new ModelAndView("board_list","lvo",boardService.getBoardList("1"));
+	   }
 	
-	//자유 게시판 글 리스트 보기
-	@RequestMapping("board_list.do")
-	public String boardList(){
-		return "board_list";
-	}
+	   
+	   @RequestMapping("auth_board_updateView.do")
+	   public ModelAndView updateView(int no) {
+	      return new ModelAndView("board_update","bvo"
+	            ,boardService.showContentNoHit(no));
+	   }
+	   //자유 게시판 글 수정
+	   @RequestMapping("auth_board_update.do")
+	   public ModelAndView updateBoard(BoardVO bvo) {
+	      boardService.updateBoard(bvo);
+	      return new ModelAndView("board_show_content","bvo",boardService.showContentNoHit(bvo.getNo()));
+	   }
+	   @RequestMapping("auth_board_show_content.do")
+	   public ModelAndView showContent(int no,
+	         @CookieValue(value="sjacboard",required=false) String cookieValue,HttpServletResponse response) {      
+	      BoardVO bvo=null;
+	      if(cookieValue==null){
+	         response.addCookie(new Cookie("sjacboard","|"+no+"|"));
+	         bvo=boardService.showContent(no);
+	      }else if(cookieValue.indexOf("|"+no+"|")==-1){
+	         cookieValue+="|"+no+"|";
+	         //글번호를 쿠키에 추가 
+	         response.addCookie(new Cookie("sjacboard",cookieValue));
+	         bvo=boardService.showContent(no);
+	      }else{
+	         bvo=boardService.showContentNoHit(no);
+	      }      
+	      return new ModelAndView("board_show_content","bvo",bvo);
+	   }
+	   @RequestMapping("auth_board_showContentNoHit.do")
+	   public ModelAndView showContentNoHit(int no) {         
+	      return new ModelAndView("board_show_content","bvo",boardService.showContentNoHit(no));
+	   }
+	   //자유 게시판 글 리스트 보기
+	   @RequestMapping("auth_board_list.do")
+	   public ModelAndView boardList(String pageNo){
+	      return new ModelAndView("board_list","map",boardService.getBoardList(pageNo));
+	   }
+	   
+	   /**
+	    * 답변 폼을 보여 준다
+	    * client가 show_content.jsp에서 글을 보고 답변버튼을 클릭하면 답변할 폼을 보여준다. 
+	    * 1. Client로 부터 답변할 글 번호(no)를 받는다. 
+	    * 2. BoardService의 showContentNoHit(no) 를 호출하여 답변 원본 글의 데이터를 가진 BoardVO 객체를 
+	    *    받아온다. 
+	    * 3. BoardVO객체(bvo)를 request scope에 넣고 reply_form.jsp로 수행을 넘긴다.
+	    *       
+	    */
+	   @RequestMapping("auth_board_replyView.do")
+	   public ModelAndView replyView(int no) {      
+	      return new ModelAndView("board_reply_form","bvo",
+	            boardService.showContentNoHit(no));
+	   }
+	   /**
+	    * 답변을 처리 
+	    * 1. Client로 부터 답변할 글의 데이터들을 BoardVO로 받는다. 
+	    * 2. BoardService의 reply(bvo)를 호출하여 답변처리를 한다.
+	    * 3. BoardVO객체를 request scope에 넣고 show_content.jsp로 수행을 넘긴다.
+	    */
+	   @RequestMapping(value="auth_board_reply.do",method=RequestMethod.POST)
+	   public ModelAndView reply(HttpServletRequest request,BoardVO bvo) throws Exception{
+	      HttpSession session=request.getSession(false);
+	      if(session!=null){
+	         MemberVO mvo=(MemberVO) session.getAttribute("mvo");
+	         if(mvo!=null){
+	            bvo.setMemberVO(mvo);
+	         }
+	      }
+	      boardService.reply(bvo);      
+	      return new ModelAndView("redirect:auth_board_showContentNoHit.do?no="+bvo.getNo());
+	   }
+	   
+	   /*@RequestMapping(value="checkParentExistence.do",method=RequestMethod.GET)
+	   @ResponseBody
+	   public boolean checkParent(BoardVO bvo){
+	      boolean flag = false;
+	      if(bvo.getRestep()==0){
+	         flag=true;
+	      }else{
+	         flag = boardService.checkParentExistence(bvo);
+	      }
+	      return flag;
+	   }*/
 	
-	//그룹페이지 메인 화면
-	@RequestMapping("group_member_home.do")
-	public String groupHome(){
-		return "group";
-	}
 	
-	//마이페이지 나의 정보
-	@RequestMapping("mypage_info.do")
-	public String myPage(){
-		return "mypage_info";
-	}
 	
-	//마이페이지 내정보 수정 페이지
-	@RequestMapping("mypage_update.do")
-	public String myInfoUpdate(){
-		return "mypage_update";
-	}
 	
-	//마이페이지 내가 가입한 그룹리스트 출력 페이지
-	@RequestMapping("mypage_grouplist.do")
-	public String myPageGroupList(){
-		return "mypage_grouplist";
-	}
-	
-	@RequestMapping("mypage_grouplist_grid.do")
-	public String myPageGroupListGrid(){
-		return "mypage_grouplist_grid";
-	}
-	
-	//마이페이지 현재 가입요청중인 그룹리스트 출력 페이지
-	@RequestMapping("mypage_join_grouplist.do")
-	public String myPageJoinGroupList(){
-		return "mypage_join_grouplist";
-	}
-	@RequestMapping("mypage_join_grouplist_grid.do")
-	public String myPageJoinGroupListGrid(){
-		return "mypage_join_grouplist_grid";
-	}
-	
-	//마이페이지 내 스케줄 출력 페이지
-	@RequestMapping("mypage_schedule.do")
-	public String myPageSchedule(){
-		return "mypage_schedule";
-	}
-	
-	//마이페이지 내가 만든 그룹 출력 페이지
-	@RequestMapping("mypage_mycreating_group.do")
-	public String myPageMyCreatingGroup(){
-		return "mypage_mycreating_group";
-	}
-	@RequestMapping("mypage_mycreating_group_grid.do")
-	public String myPageMyCreatingGroupGrid(){
-		return "mypage_mycreating_group_grid";
-	}
 	
 }

@@ -31,6 +31,12 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        
+        <!-- chart js  -->
+        <script type='text/javascript' src="fusioncharts.js"></script>
+      <script type='text/javascript' src="fusioncharts.charts.js"></script>
+      <!-- chart js  -->
+
         <link rel="stylesheet" href="/resources/demos/style.css">
            <style>
            #accordion-resizer {
@@ -51,80 +57,43 @@
                 text-shadow: 1px 1px 0 #fff;
               }
               </style>
-           
-         <script type="text/javascript">
-            /* $(function(){
-               $( "#accordion" ).accordion({
-                  heightStyle: "content"
-               });               
-            }); */
-            
-            $(function() {
-                $( "#accordion" ).accordion({
-                  heightStyle: "fill"
-                });
-              });
-              $(function() {
-                $( "#accordion-resizer" ).resizable({
-                  minHeight: 140,
-                  minWidth: 200,
-                  resize: function() {
-                    $( "#accordion" ).accordion( "refresh" );
-                  }
-                });
-              });
-              
-              $(function() {
-                   var progressbar = $( "#progressbar" ),
-                     progressLabel = $( ".progress-label" );
-                
-                   progressbar.progressbar({
-                     value: false,
-                     change: function() {
-                       progressLabel.text( progressbar.progressbar( "value" ) + "%" );
-                     },
-                     complete: function() {
-                       progressLabel.text( "Complete!" );
-                     }
-                   });
-                 });
-         </script>
-
     </head>
 <body>
         <div class="wrapper">
-		<div id="container">
-			<div id="header">
-				<tiles:insertAttribute name="header" />
-			</div>
-			<div id="left">
-				<tiles:insertAttribute name="hero" />
-			</div>
+      <div id="container">
+         <div id="header">
+            <tiles:insertAttribute name="header" />
+         </div>
+         <div id="left">
+            <tiles:insertAttribute name="hero" />
+         </div>
 
-			<section class="main">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-sm-8">
-						<tiles:insertAttribute name="homegroup" />
-					</div>
+         <section class="main">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-8 col-sm-8">
+                  <tiles:insertAttribute name="homegroup" />
+               </div>
 
-					<div class="col-md-4 col-sm-4">
-						<tiles:insertAttribute name="homelogin" />
-						 <div class="banner-widget">
-                                <img src="http://placehold.it/600x275" alt="banner" class="img-responsive">
-						 </div>
-					</div>
-				</div>
-			</div>
-			</section>
-			<div id="counter">
-				<tiles:insertAttribute name="counter" />
-			</div>
-			<div id="footer">
-				<tiles:insertAttribute name="footer" />
-			</div>
-		</div>
-	</div>
+<!--                <div class="col-md-4 col-sm-4"> -->
+<%--                   <tiles:insertAttribute name="homelogin" /> --%>
+<!--                </div> -->
+               
+               <div class="col-md-4 col-sm-4">
+                  <tiles:insertAttribute name="chart" />
+               </div>
+               
+            </div>
+         </div>
+         </section>
+         <div id="counter">
+            <tiles:insertAttribute name="counter" />
+         </div>
+         <div id="footer">
+            <tiles:insertAttribute name="footer" />
+         </div>
+      </div>
+   </div>
 <!-- Essentials -->
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/plugins/owl-carousel/owl.carousel.js"></script>

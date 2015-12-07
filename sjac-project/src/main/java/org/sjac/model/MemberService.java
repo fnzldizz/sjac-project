@@ -8,6 +8,10 @@ public interface MemberService {
 	public void register(MemberVO vo);// 회원가입
 	public void deleteMemberById(String id);//아이디를 통해 회원 삭제 및 탈퇴
 	public void updateMyInfo(MemberVO vo);// 회원 개인 정보를 수정
+	public List<StudyLocationVO> getAllStudyLocation();  // 모든 지역 정보 가져오기
 	// 여기서부터 관리자만 가능. 시작!!
 	public List<MemberVO> getAllMemberList();//모든 멤버 리스트 가져오기.
+	
+
+	
 }

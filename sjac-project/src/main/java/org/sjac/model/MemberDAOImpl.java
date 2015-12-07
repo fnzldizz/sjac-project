@@ -14,13 +14,13 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public MemberVO findMemberById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return sqlSessionTemplate.selectOne("member.findMemberById", id);
 	}
 
 	@Override
 	public MemberVO login(MemberVO vo) {
-		System.out.println(vo);
+		System.out.println(sqlSessionTemplate.selectOne("member.login", vo));
 		return sqlSessionTemplate.selectOne("member.login", vo);
 	}
 
@@ -38,7 +38,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public void updateMyInfo(MemberVO vo) {
-		// TODO Auto-generated method stub
+		sqlSessionTemplate.update("member.updateMyInfo", vo);
 
 	}
 
@@ -47,5 +47,12 @@ public class MemberDAOImpl implements MemberDAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<StudyLocationVO> getAllStudyLocation() {
+		return sqlSessionTemplate.selectList("member.getAllStudyLocation");
+	}
+
+
 
 }
